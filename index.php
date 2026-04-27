@@ -414,7 +414,7 @@ include 'Shanuka.php';
     
   </div>
 </section>
-
+//Contact details
 <!-- CONTACT -->
 <section id="contact">
   <p class="section-label">Let's Talk</p>
