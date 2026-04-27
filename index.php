@@ -1,3 +1,6 @@
+<?php
+include 'Shanuka.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -425,10 +428,23 @@
       <div class="contact-item"><div class="contact-icon">💼</div><span><a href="www.linkedin.com/in/aspu-shanuka-9908a2379" target="_blank">linkedin.com</a></span></div>
       <div class="contact-item"><div class="contact-icon">🐙</div><span><a href="https://github.com/Shanuka071" target="_blank">https://github.com/Shanuka071</a></span></div>
     </div>
-    <form class="contact-form" onsubmit="handleSubmit(event)">
-      <div class="form-group"><label>Your Name</label><input type="text" placeholder="Shanuka Doe"/></div>
-      <div class="form-group"><label>Email Address</label><input type="email" placeholder="Shanukaaspu@gmail.com"/></div>
-      <div class="form-group"><label>Message</label><textarea placeholder="Hi Shanuka, I'd love to connect about..."></textarea></div>
+    <?php
+    if(isset($_POST['submit'])){
+    $fullname=$_POST['fullname']??"";
+    $email=$_POST['email']??"";
+    $message=$_POST['message']??"";
+     
+     $stmt =$conn->prepare("INSERT into customer_review(fullname,email,message) values(?,?,?)");
+        $stmt->bind_param("sss",$fullname,$email,$message);
+        $stmt->execute();
+        $stmt->close();
+        $conn->close();
+      }
+    ?>
+    <form class="contact-form" action="" method="POST">
+      <div class="form-group"><label>Your Name</label><input type="text" name="fullname" placeholder="Shanuka Doe"/></div>
+      <div class="form-group"><label>Email Address</label><input type="email" name="email" placeholder="Shanukaaspu@gmail.com"/></div>
+      <div class="form-group"><label>Message</label><textarea name="message" placeholder="Hi Shanuka, I'd love to connect about..."></textarea></div>
       <button type="submit" class="btn-submit">Send Message →</button>
     </form>
   </div>
@@ -445,13 +461,18 @@
   }, { threshold: 0.12 });
   reveals.forEach(r => observer.observe(r));
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    const btn = e.target.querySelector('.btn-submit');
-    btn.textContent = 'Message Sent ✓';
-    btn.style.background = '#16a34a';
-    setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; e.target.reset(); }, 3000);
-  }
+  // function handleSubmit(e) {
+  //   e.preventDefault();
+  //   const btn = e.target.querySelector('.btn-submit');
+  //   btn.textContent = 'Message Sent ✓';
+  //   btn.style.background = '#16a34a';
+  //   setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; e.target.reset(); }, 3000);
+  // }
+
+  const button = document.querySelector('.btn-submit');
+  button.addEventListener('click', () => {
+    alert('Message sent successfully!');
+  });
 </script>
 </body>
 </html>
